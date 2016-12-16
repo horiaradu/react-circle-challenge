@@ -14,7 +14,7 @@ export default class Circle {
 
   static discPoints(center, radius) {
     let points = [center];
-    for (let i = 1; i <= radius; i += 1) {
+    for (let i = 1; i <= radius; i += 5) {
       points = points.concat(Circle.circlePoints(center, i));
     }
     return points;

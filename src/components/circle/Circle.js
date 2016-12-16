@@ -32,6 +32,14 @@ export default class Circle extends Component {
     return this.state.colors[Circle.pointKey(point)];
   }
 
+  pointWidth(point) {
+    return this.state.colors[Circle.pointKey(point)] === 'red' ? 1 : 10;
+  }
+
+  pointHeight(point) {
+    return this.state.colors[Circle.pointKey(point)] === 'red' ? 1 : 10;
+  }
+
   render() {
     return (
       <div>
@@ -45,7 +53,11 @@ export default class Circle extends Component {
         </div>
         {
           this.props.points.map(point => (
-            <Point x={point.x} y={point.y} color={this.pointColor(point)} key={Circle.pointKey(point)} />
+            <Point x={point.x} y={point.y}
+            color={this.pointColor(point)}
+            width={this.pointWidth(point)}
+            height={this.pointHeight(point)}
+            key={Circle.pointKey(point)} />
           ))
         }
       </div>
