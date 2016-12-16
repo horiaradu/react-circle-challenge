@@ -1,19 +1,51 @@
 import React, { Component } from 'react';
-import CircleModel from '../../model/Circle';
+import './Circle.css';
 import Point from '../point/Point';
 
 export default class Circle extends Component {
-  render() {
-    const center = {x: 500, y: 500};
-    const radius = 250;
-    const points = CircleModel.circlePoints(center, radius);
+  constructor() {
+    super();
+    this.state = { colors: {} };
+    this.changeColors = this.changeColors.bind(this);
+  }
 
+  componentWillMount() {
+    this.changeColors();
+  }
+
+  static pointKey(point) {
+    return `${point.x}-${point.y}`
+  }
+
+  changeColors() {
+    const newColors = this.props.points.reduce((acc, point) => {
+      const newColor = this.state.colors[Circle.pointKey(point)] === 'red' ? 'blue' : 'red';
+      return Object.assign(acc, {[Circle.pointKey(point)]: newColor});
+    }, {});
+
+    this.setState({
+      colors: newColors,
+    });
+  }
+
+  pointColor(point) {
+    return this.state.colors[Circle.pointKey(point)];
+  }
+
+  render() {
     return (
       <div>
-        <Point x={center.x} y={center.y} />
+        <div>
+          <button
+            style={ {position: 'absolute', left: 20, top: 20} }
+            onClick={ this.changeColors }
+          >
+            Random colors
+          </button>
+        </div>
         {
-          points.map(point => (
-            <Point x={point.x} y={point.y} key={`${point.x}-${point.y}`} />
+          this.props.points.map(point => (
+            <Point x={point.x} y={point.y} color={this.pointColor(point)} key={Circle.pointKey(point)} />
           ))
         }
       </div>
